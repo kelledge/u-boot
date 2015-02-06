@@ -1,0 +1,2 @@
+debian/build/MLO /usr/share/u-boot-boneblack
+debian/build/u-boot.img /usr/share/u-boot-boneblack

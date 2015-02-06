@@ -1,0 +1,17 @@
+Source: u-boot
+Section: kernel
+Priority: extra
+Maintainer: Kevin Elledge (PetroPower) <kelledge@petropower.com>
+Build-Depends: debhelper (>= 8.0.0),
+     gcc-4.6-arm-linux-gnueabihf,
+     lzop,
+     bc
+Standards-Version: 3.9.3
+Homepage: https://www.kernel.org/
+Vcs-Browser: https://github.com/kelledge/linux
+
+Package: u-boot-boneblack
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

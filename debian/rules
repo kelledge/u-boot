@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+#
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# Setup kbuild
+export ARCH               := arm
+export CROSS_COMPILE      := arm-linux-gnueabihf-
+export LOCALVERSION       := -armv7-1
+export KBUILD_OUTPUT      := debian/build
+
+# Setup Debian package for an armhf crossbuild
+export DEB_BUILD_ARCH     = $(shell dpkg-architecture -f -aarmhf -qDEB_BUILD_ARCH 2>/dev/null)
+export DEB_BUILD_GNU_TYPE = $(shell dpkg-architecture -f -aarmhf -qDEB_BUILD_GNU_TYPE 2>/dev/null)
+export DEB_HOST_ARCH      = $(shell dpkg-architecture -f -aarmhf -qDEB_HOST_ARCH 2>/dev/null)
+export DEB_HOST_GNU_TYPE  = $(shell dpkg-architecture -f -aarmhf -qDEB_HOST_GNU_TYPE 2>/dev/null)
+
+# Convienence
+PKG_DIR := $(CURDIR)/debian/u-boot-boneblack
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_clean:
+	@rm -rf $(KBUILD_OUTPUT)
+	@mkdir -p $(KBUILD_OUTPUT)
+	@rm -rf .config 
+	@rm -rf include/config
+
+override_dh_auto_configure:
+	make am335x_boneblack_defconfig
+
+override_dh_auto_build:
+	make
+
+override_dh_auto_test:
+
+override_dh_auto_install:
